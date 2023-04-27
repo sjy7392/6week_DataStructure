@@ -11,11 +11,13 @@
 
 /* 필요한 헤더파일 추가 */
 
+//listNode 구조체는 key와 link 2개의 필드를 가짐
 typedef struct Node {
-	int key;
+	int key; 
 	struct Node* link;
 } listNode;
 
+//headNode 구조체는 first라는 필드를 가짐
 typedef struct Head {
 	struct Node* first;
 }headNode;
@@ -126,21 +128,21 @@ int freeList(headNode* h){
 	/* h와 연결된 listNode 메모리 해제
 	 * headNode도 해제되어야 함.
 	 */
-	listNode* p = h->first;
+	listNode* p = h->first; //맨 처음 노드를 가리키는 포인터 p 설정 h의 첫번째 노드 가리키게 
 
-	listNode* prev = NULL;
-	while(p != NULL) {
-		prev = p;
-		p = p->link;
-		free(prev);
+	listNode* prev = NULL; //이전 노드를 가리키는 포인터 prev를 생성 후 NULL로 정
+	while(p != NULL) { //포인터 p가 NULL이 아닐 때까지 반복
+		prev = p; //prev 포인터에 p의 값을 대입
+		p = p->link; //다음 노드로 이동
+		free(prev); //동적 할당 해제
 	}
-	free(h);
-	return 0;
+	free(h); //headNode 메모리 해제
+	return 0; //함수 종료
 }
 
 
 /* 리스트를 검색하여, 입력받은 key보다 큰값이 나오는 노드 바로 앞에 삽입 */
-int insertNode(headNode* h, int key) { //연결리스트의 헤드노드를 가리키는 포인터(h)와 새로운 노드에 저장될 값(key)을 매개변수로짐
+int insertNode(headNode* h, int key) { //연결리스트의 헤드노드를 가리키는 포인터(h)와 새로운 노드에 저장될 값(key)을 매개변수로
 
 	listNode* node = (listNode*)malloc(sizeof(listNode)); //새로운 노드 동적할당
 	node->key = key; //node의 key에 key 값 저장
@@ -325,8 +327,8 @@ int invertList(headNode* h) {
 
 	while(n != NULL){ //리스트 끝까지
 		// 이전 노드를 middle로 옮기고, 현재 노드를 middle로 옮김
-		trail = middle;
-		middle = n;
+		trail = middle; //trail에 middle 할당
+		middle = n; //middle에 n 할당
 		n = n->link; //다음 노드로 이동
 		middle->link = trail; //middle의 link를 이전 노드와 연결
 	}
@@ -338,24 +340,24 @@ int invertList(headNode* h) {
 
 
 void printList(headNode* h) {
-	int i = 0;
-	listNode* p;
+	int i = 0; //출력할 노드의 인덱스를 저장할 변수 0으로 초기화
+	listNode* p; //현재 출력할 노드를 가리킬 포인터
 
 	printf("\n---PRINT\n");
 
-	if(h == NULL) {
-		printf("Nothing to print....\n");
+	if(h == NULL) { //h가 NULL일 시
+		printf("Nothing to print....\n"); //메시지 출력
 		return;
 	}
 
-	p = h->first;
+	p = h->first; //p를 첫 노드로 설정
 
-	while(p != NULL) {
-		printf("[ [%d]=%d ] ", i, p->key);
-		p = p->link;
-		i++;
+	while(p != NULL) { //리스트의 끝까지 반복
+		printf("[ [%d]=%d ] ", i, p->key); //현재 노드의 key 값 출력
+		p = p->link; //다음 노드로 이동
+		i++; //출력할 노드 인덱스 증가
 	}
 
-	printf("  items = %d\n", i);
+	printf("  items = %d\n", i); //총 아이템 개수 출력
 }
 
